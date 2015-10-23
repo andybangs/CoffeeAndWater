@@ -8,8 +8,8 @@ var {
   StyleSheet,
 } = React;
 
-var MainScreen = require('./MainScreen');
-var SettingsScreen = require('./SettingsScreen');
+var MainScreen = require('./App/Components/MainScreen');
+var SettingsScreen = require('./App/Components/SettingsScreen');
 
 class CoffeeAndWater extends React.Component{
   onSettingsPress() {
