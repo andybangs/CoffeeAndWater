@@ -7,18 +7,18 @@ var {
   View,
 } = React;
 
-class MainScreen extends React.Component{
+class SettingsScreen extends React.Component{
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Coffee + Water
+          Coffee-Water Ratio
         </Text>
         <Text style={styles.instructions}>
-          Coffee in grams (or ounces)
+          Ratio Display
         </Text>
         <Text style={styles.instructions}>
-          Water in grams (or ounces)
+          Slider
         </Text>
       </View>
     );
@@ -44,4 +44,4 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = MainScreen;
+module.exports = SettingsScreen;
