@@ -14,7 +14,7 @@ var SettingsScreen = require('./App/Components/SettingsScreen');
 class CoffeeAndWater extends React.Component{
   onSettingsPress() {
     this.refs.nav.push({
-      title: 'Settings',
+      title: 'Ratio',
       component: SettingsScreen,
       leftButtonTitle: 'Back',
       onLeftButtonPress: () => this.refs.nav.pop(),
