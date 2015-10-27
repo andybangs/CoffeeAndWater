@@ -10,14 +10,14 @@ var {
 var Ingredient = require('./Ingredient');
 
 class MainScreen extends React.Component{
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this._onCoffeeChange = this._onCoffeeChange.bind(this);
     this._onWaterChange = this._onWaterChange.bind(this);
     this.state = {
-      ratio: 0.0625,
-      coffee: Math.floor(672 * 0.0625),
-      water: Math.floor(42 / 0.0625),
+      ratio: this.props.ratio,
+      coffee: this.props.coffee,
+      water: this.props.water,
     };
   }
 
@@ -51,6 +51,12 @@ class MainScreen extends React.Component{
       coffee: Math.floor(value * this.state.ratio),
     });
   }
+};
+
+MainScreen.propTypes = {
+  ratio: React.PropTypes.string.isRequired,
+  coffee: React.PropTypes.number.isRequired,
+  water: React.PropTypes.number.isRequired,
 };
 
 var styles = StyleSheet.create({

@@ -9,29 +9,43 @@ var {
 } = React;
 
 class SettingsScreen extends React.Component{
-  constructor() {
-    super();
-    this.state = {value: 16};
+  constructor(props) {
+    super(props);
+    this._onValueChange = this._onValueChange.bind(this);
+    this.state = {
+      ratio: this.props.ratio,
+    };
   }
 
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.display}>
-          {(1/this.state.value).toFixed(4)}
+          {this.state.ratio}
         </Text>
         <Text style={styles.ratio}>
-          1:{this.state.value}
+          1:{Math.floor(1 / this.state.ratio)}
         </Text>
         <SliderIOS
           style={styles.slider}
-          value={16}
+          value={Math.floor(1 / this.state.ratio)}
           maximumValue={20}
           minimumValue={10}
-          onValueChange={(value) => this.setState({value: Math.floor(value)})} />
+          onValueChange={this._onValueChange} />
       </View>
     );
   }
+
+  _onValueChange(value) {
+    var ratio = (1 / value).toFixed(4);
+    this.setState({ ratio: ratio });
+    this.props.parentCallback(ratio);
+  }
+};
+
+SettingsScreen.propTypes = {
+  ratio: React.PropTypes.string.isRequired,
+  parentCallback: React.PropTypes.func.isRequired,
 };
 
 var styles = StyleSheet.create({
