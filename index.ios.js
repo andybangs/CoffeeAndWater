@@ -25,6 +25,7 @@ var NavigationBarRouteMapper = {
     }
 
     var previousRoute = navState.routeStack[index - 1];
+
     return (
       <TouchableOpacity
         onPress={() => navigator.pop()}
@@ -40,6 +41,7 @@ var NavigationBarRouteMapper = {
     if (index === 1) {
       return null;
     }
+
     return (
       <TouchableOpacity
         onPress={() => navigator.push({title: 'Ratio', index: 1})}
@@ -91,7 +93,7 @@ class CoffeeAndWater extends React.Component{
     .then((value) => {
       if (value) {
         this.setState({
-          coffee: parseInt(value, 10),
+          coffee: parseFloat(value),
         });
       }
     })
@@ -119,7 +121,7 @@ class CoffeeAndWater extends React.Component{
           parentWaterCallback={this._onWaterChange}
         />
       );
-    } else {
+    } else if (route.index === 1) {
       return (
         <SettingsScreen
           ratio={this.state.ratio}
@@ -133,7 +135,6 @@ class CoffeeAndWater extends React.Component{
     return (
       <Navigator
         debugOverlay={false}
-        style={styles.appContainer}
         initialRoute={{title: 'Coffee + Water', index: 0}}
         renderScene={this.renderScene}
         navigationBar={
@@ -155,7 +156,7 @@ class CoffeeAndWater extends React.Component{
   }
 
   _onCoffeeChange(value) {
-    var water = Math.floor(value / this.state.ratio);
+    var water = Math.round((value * 10000) / (+this.state.ratio * 10000));
 
     this.setState({
       coffee: value,
@@ -167,7 +168,7 @@ class CoffeeAndWater extends React.Component{
   }
 
   _onWaterChange(value) {
-    var coffee = Math.floor(value * this.state.ratio);
+    var coffee = (((value * 10000) * (+this.state.ratio * 10000)) / 100000000);
 
     this.setState({
       water: value,
@@ -181,7 +182,7 @@ class CoffeeAndWater extends React.Component{
 
 var styles = StyleSheet.create({
   navBar: {
-    backgroundColor: 'white',
+    backgroundColor: '#eee',
   },
   navBarText: {
     fontSize: 16,

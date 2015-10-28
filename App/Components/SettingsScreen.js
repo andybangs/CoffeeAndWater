@@ -21,11 +21,11 @@ class SettingsScreen extends React.Component{
           {this.props.ratio}
         </Text>
         <Text style={styles.ratio}>
-          1:{Math.floor(1 / this.props.ratio)}
+          1:{Math.round(10000 / (+this.props.ratio * 10000))}
         </Text>
         <SliderIOS
           style={styles.slider}
-          value={Math.floor(1 / this.props.ratio)}
+          value={Math.round(10000 / (+this.props.ratio * 10000))}
           maximumValue={20}
           minimumValue={10}
           onValueChange={this._onValueChange} />

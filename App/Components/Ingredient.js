@@ -17,7 +17,7 @@ class Ingredient extends React.Component{
 
   render() {
     return (
-      <View style={{height: 302, justifyContent: 'center', backgroundColor: this.props.color}}>
+      <View style={[styles.container, {backgroundColor: this.props.color}]}>
         <Text style={styles.header}>
           {this.props.header}
         </Text>
@@ -26,8 +26,8 @@ class Ingredient extends React.Component{
             <Text style={styles.operator}>-</Text>
           </TouchableHighlight>
           <View style = {styles.center}>
-            <Text style={styles.number}>
-              {this.props.number}
+            <Text style={styles.value}>
+              {this.props.value}
             </Text>
           </View>
           <TouchableHighlight style={styles.edge} onPress={this._onIncPress}>
@@ -39,23 +39,27 @@ class Ingredient extends React.Component{
   }
 
   _onDecPress() {
-    this.props.parentCallback(this.props.number - 1);
+    this.props.parentCallback((+this.props.value * 10 - this.props.step * 10) / 10);
   }
 
   _onIncPress() {
-    this.props.parentCallback(this.props.number + 1);
+    this.props.parentCallback((+this.props.value * 10 + this.props.step * 10) / 10);
   }
 };
 
 Ingredient.propTypes = {
   header: React.PropTypes.string.isRequired,
-  number: React.PropTypes.number.isRequired,
+  value: React.PropTypes.any.isRequired, // coffee: string, water: number
+  step: React.PropTypes.number.isRequired,
   color: React.PropTypes.string.isRequired,
   parentCallback: React.PropTypes.func.isRequired,
 };
 
 var styles = StyleSheet.create({
-  container: {},  // Set inline to have access to this.props.color
+  container: {
+    height: 302,
+    justifyContent: 'center',
+  },
   header: {
     alignSelf: 'center',
     fontSize: 40,
@@ -68,7 +72,7 @@ var styles = StyleSheet.create({
     fontSize: 80,
     color: '#333',
   },
-  number: {
+  value: {
     fontSize: 80,
     color: '#333',
   },

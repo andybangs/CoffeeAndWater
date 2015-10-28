@@ -21,12 +21,14 @@ class MainScreen extends React.Component{
       <View style={styles.container}>
         <Ingredient
           header={'coffee (g)'}
-          number={this.props.coffee}
+          value={this.props.coffee.toFixed(1)}
+          step={0.1}
           color={'#b86b46'}
           parentCallback={this._onCoffeeChange} />
         <Ingredient
           header={'water (g)'}
-          number={this.props.water}
+          value={this.props.water}
+          step={1}
           color={'#65bdd9'}
           parentCallback={this._onWaterChange} />
       </View>
@@ -55,6 +57,7 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end',
+    backgroundColor: '#f1e7c9',
   },
 });
 
