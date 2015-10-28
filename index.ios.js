@@ -72,7 +72,7 @@ class CoffeeAndWater extends React.Component{
     this._onWaterChange = this._onWaterChange.bind(this);
 
     this.state = {
-      ratio: 0.0625,
+      ratio: '0.0625',
       coffee: 42,
       water: 672,
     };
@@ -83,7 +83,7 @@ class CoffeeAndWater extends React.Component{
     .then((value) => {
       if (value) {
         this.setState({
-          ratio: +value,
+          ratio: value,
         });
       }
     })
@@ -148,11 +148,15 @@ class CoffeeAndWater extends React.Component{
   }
 
   _onRatioChange(value) {
-    AsyncStorage.setItem(RATIO, value);
+    var water = Math.round((this.state.coffee * 10000) / (+value * 10000));
+
     this.setState({
       ratio: value,
-      water: Math.floor(this.state.coffee / +value),
+      water: water,
     });
+
+    AsyncStorage.setItem(RATIO, value);
+    AsyncStorage.setItem(WATER, water.toString());
   }
 
   _onCoffeeChange(value) {
