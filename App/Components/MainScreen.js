@@ -14,11 +14,6 @@ class MainScreen extends React.Component{
     super(props);
     this._onCoffeeChange = this._onCoffeeChange.bind(this);
     this._onWaterChange = this._onWaterChange.bind(this);
-    this.state = {
-      ratio: this.props.ratio,
-      coffee: this.props.coffee,
-      water: this.props.water,
-    };
   }
 
   render() {
@@ -26,12 +21,12 @@ class MainScreen extends React.Component{
       <View style={styles.container}>
         <Ingredient
           header={'coffee (g)'}
-          number={this.state.coffee}
+          number={this.props.coffee}
           color={'#b86b46'}
           parentCallback={this._onCoffeeChange} />
         <Ingredient
           header={'water (g)'}
-          number={this.state.water}
+          number={this.props.water}
           color={'#65bdd9'}
           parentCallback={this._onWaterChange} />
       </View>
@@ -39,24 +34,20 @@ class MainScreen extends React.Component{
   }
 
   _onCoffeeChange(value) {
-    this.setState({
-      coffee: value,
-      water: Math.floor(value / this.state.ratio),
-    });
+    this.props.parentCoffeeCallback(value);
   }
 
   _onWaterChange(value) {
-    this.setState({
-      water: value,
-      coffee: Math.floor(value * this.state.ratio),
-    });
+    this.props.parentWaterCallback(value);
   }
 };
 
 MainScreen.propTypes = {
-  ratio: React.PropTypes.string.isRequired,
+  ratio: React.PropTypes.number.isRequired,
   coffee: React.PropTypes.number.isRequired,
   water: React.PropTypes.number.isRequired,
+  parentCoffeeCallback: React.PropTypes.func.isRequired,
+  parentWaterCallback: React.PropTypes.func.isRequired,
 };
 
 var styles = StyleSheet.create({
@@ -64,7 +55,6 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    backgroundColor: '#f1e7c9', // visible beneath navbar
   },
 });
 

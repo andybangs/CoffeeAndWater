@@ -12,23 +12,20 @@ class SettingsScreen extends React.Component{
   constructor(props) {
     super(props);
     this._onValueChange = this._onValueChange.bind(this);
-    this.state = {
-      ratio: this.props.ratio,
-    };
   }
 
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.display}>
-          {this.state.ratio}
+          {this.props.ratio}
         </Text>
         <Text style={styles.ratio}>
-          1:{Math.floor(1 / this.state.ratio)}
+          1:{Math.floor(1 / this.props.ratio)}
         </Text>
         <SliderIOS
           style={styles.slider}
-          value={Math.floor(1 / this.state.ratio)}
+          value={Math.floor(1 / this.props.ratio)}
           maximumValue={20}
           minimumValue={10}
           onValueChange={this._onValueChange} />
@@ -37,9 +34,7 @@ class SettingsScreen extends React.Component{
   }
 
   _onValueChange(value) {
-    var ratio = (1 / value).toFixed(4);
-    this.setState({ ratio: ratio });
-    this.props.parentCallback(ratio);
+    this.props.parentCallback((1 / value).toFixed(4));
   }
 };
 

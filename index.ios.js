@@ -15,6 +15,8 @@ var MainScreen = require('./App/Components/MainScreen');
 var SettingsScreen = require('./App/Components/SettingsScreen');
 
 var RATIO = 'ratio';
+var COFFEE = 'coffee';
+var WATER = 'water';
 
 var NavigationBarRouteMapper = {
   LeftButton(route, navigator, index, navState) {
@@ -64,11 +66,13 @@ class CoffeeAndWater extends React.Component{
 
     this.renderScene = this.renderScene.bind(this);
     this._onRatioChange = this._onRatioChange.bind(this);
+    this._onCoffeeChange = this._onCoffeeChange.bind(this);
+    this._onWaterChange = this._onWaterChange.bind(this);
 
     this.state = {
       ratio: 0.0625,
       coffee: 42,
-      water: Math.floor(42 / 0.0625),
+      water: 672,
     };
   }
 
@@ -77,9 +81,27 @@ class CoffeeAndWater extends React.Component{
     .then((value) => {
       if (value) {
         this.setState({
-          ratio: value,
-          coffee: 42,
-          water: Math.floor(42 / +value),
+          ratio: +value,
+        });
+      }
+    })
+    .done();
+
+    AsyncStorage.getItem(COFFEE)
+    .then((value) => {
+      if (value) {
+        this.setState({
+          coffee: parseInt(value, 10),
+        });
+      }
+    })
+    .done();
+
+    AsyncStorage.getItem(WATER)
+    .then((value) => {
+      if (value) {
+        this.setState({
+          water: parseInt(value, 10),
         });
       }
     })
@@ -93,6 +115,8 @@ class CoffeeAndWater extends React.Component{
           ratio={this.state.ratio}
           coffee={this.state.coffee}
           water={this.state.water}
+          parentCoffeeCallback={this._onCoffeeChange}
+          parentWaterCallback={this._onWaterChange}
         />
       );
     } else {
@@ -126,8 +150,32 @@ class CoffeeAndWater extends React.Component{
     AsyncStorage.setItem(RATIO, value);
     this.setState({
       ratio: value,
-      water: Math.floor(this.props.coffee / value),
+      water: Math.floor(this.state.coffee / +value),
     });
+  }
+
+  _onCoffeeChange(value) {
+    var water = Math.floor(value / this.state.ratio);
+
+    this.setState({
+      coffee: value,
+      water: water,
+    });
+
+    AsyncStorage.setItem(COFFEE, value.toString());
+    AsyncStorage.setItem(WATER, water.toString());
+  }
+
+  _onWaterChange(value) {
+    var coffee = Math.floor(value * this.state.ratio);
+
+    this.setState({
+      water: value,
+      coffee: coffee,
+    });
+
+    AsyncStorage.setItem(WATER, value.toString());
+    AsyncStorage.setItem(COFFEE, coffee.toString());
   }
 };
 
